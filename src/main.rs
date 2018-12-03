@@ -1,14 +1,12 @@
-use std::error::Error;
 use std::fs::File;
 use std::io::prelude::*;
-use std::io::{BufRead, BufReader, Result};
+use std::io::Result;
 use std::path::Path;
 use std::collections::HashSet;
 
 fn main() -> Result<()> {
     // Part one
     let path = Path::new("day1-input");
-    let display = path.display();
     let mut file = File::open(&path)?;
 
     let mut resulting_frequency = 0;
@@ -18,9 +16,7 @@ fn main() -> Result<()> {
 
     // Read in the file, and convert into a Vec<i32> so we can
     let mut file_contents = String::new();
-    file.read_to_string(&mut file_contents)
-        .ok()
-        .expect("failed to read!");
+    file.read_to_string(&mut file_contents)?;
     drop(file);
     let period : Vec<i32> = file_contents.split("\n")
         .filter_map(|s: &str| s.to_string().parse::<i32>().ok())
