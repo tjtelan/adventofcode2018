@@ -18,7 +18,7 @@ fn main() -> Result<()> {
     let mut file_contents = String::new();
     file.read_to_string(&mut file_contents)?;
     drop(file);
-    let period : Vec<i32> = file_contents.split("\n")
+    let period : Vec<i32> = file_contents.split_whitespace()
         .filter_map(|s: &str| s.to_string().parse::<i32>().ok())
         .collect();
 
