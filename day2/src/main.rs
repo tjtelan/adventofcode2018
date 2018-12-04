@@ -12,15 +12,6 @@ struct CandidateBox {
 
 impl CandidateBox {
     fn new(id : &str) -> CandidateBox {
-        //let s_slice : &str = &id[..];
-        //let mut chars : Vec<char> = s_slice.chars().collect();
-        //chars.sort();
-
-        //println!("Before sort: {:?}", id);
-        //println!("After sort: {:?}", chars);
-        //
-        //println!("{:?}", id.matches("f").count());
-
         let (two_letter_case, three_letter_case) = CandidateBox::_check_letter_cases(id);
 
         CandidateBox {
@@ -52,7 +43,6 @@ impl CandidateBox {
         }
 
         (two_flag, three_flag)
-    
     }
 
     fn has_two_letter_case(&self) -> bool {
@@ -69,6 +59,7 @@ fn main() -> Result<()> {
     // Part one
     let path = Path::new("day2-input");
     //let path = Path::new("test-input");
+    //let path = Path::new("test2-input");
     let mut file = File::open(&path)?;
 
     // Read in the file, and convert into a Vec<i32> so we can
@@ -101,6 +92,42 @@ fn main() -> Result<()> {
 
     let checksum = two_letter_case_count * three_letter_case_count; // Part 1 answer
     println!("Checksum: {:?}", checksum);
+
+
+    let mut box1 = "";
+    let mut box2 = "";
+    let mut most_common_count = 0;
+
+    // Ugly O(n^2) solution
+    for outer in &box_ids {
+
+        for inner in &box_ids {
+            if outer == inner {
+                continue;
+            }
+
+            let mut iter = outer.chars().zip(inner.chars());
+
+            let mut char_count = 0;
+            for check in iter {
+                //println!("{:?}", check);
+
+                if check.0 == check.1 {
+                    char_count += 1;
+                }
+
+            }
+
+            if char_count > most_common_count {
+                most_common_count = char_count;
+                box1 = outer;
+                box2 = inner;
+            }
+
+        }
+    }
+
+    println!("box1: {:?}\nbox2: {:?}", box1, box2);
 
     Ok(())
 }
